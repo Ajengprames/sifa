@@ -113,7 +113,8 @@ class Admin_Controller extends User_Controller
 		if (!$this->ion_auth->is_admin()) {
 			$this->session->set_flashdata('alert', $this->alert->set_alert(Alert::DANGER, $this->lang->line('login_must_admin')));
 			redirect(site_url('/auth/login'));
-		} else { }
+		} else {
+		}
 	}
 
 	protected function render($the_view = NULL, $template = 'admin_master')
@@ -130,7 +131,8 @@ class Uadmin_Controller extends User_Controller
 		if (!$this->ion_auth->in_group('uadmin')) {
 			$this->session->set_flashdata('alert', $this->alert->set_alert(Alert::DANGER, $this->lang->line('login_must_admin')));
 			redirect(site_url('/auth/login'));
-		} else { }
+		} else {
+		}
 	}
 
 	protected function render($the_view = NULL, $template = 'admin_master')
@@ -147,7 +149,8 @@ class Pharmacist_Controller extends User_Controller
 		if (!$this->ion_auth->in_group('pharmacist')) {
 			$this->session->set_flashdata('alert', $this->alert->set_alert(Alert::DANGER, $this->lang->line('login_must_admin')));
 			redirect(site_url('/auth/login'));
-		} else { }
+		} else {
+		}
 	}
 
 	protected function render($the_view = NULL, $template = 'admin_master')
@@ -164,7 +167,43 @@ class Doctor_Controller extends User_Controller
 		if (!$this->ion_auth->in_group('doctor')) {
 			$this->session->set_flashdata('alert', $this->alert->set_alert(Alert::DANGER, $this->lang->line('login_must_admin')));
 			redirect(site_url('/auth/login'));
-		} else { }
+		} else {
+		}
+	}
+
+	protected function render($the_view = NULL, $template = 'admin_master')
+	{
+		parent::render($the_view, $template);
+	}
+}
+
+class Bidan_Controller extends User_Controller
+{
+	public function __construct()
+	{
+		parent::__construct();
+		if (!$this->ion_auth->in_group('bidan')) {
+			$this->session->set_flashdata('alert', $this->alert->set_alert(Alert::DANGER, $this->lang->line('login_must_admin')));
+			redirect(site_url('/auth/login'));
+		} else {
+		}
+	}
+
+	protected function render($the_view = NULL, $template = 'admin_master')
+	{
+		parent::render($the_view, $template);
+	}
+}
+class Kepala_Controller extends User_Controller
+{
+	public function __construct()
+	{
+		parent::__construct();
+		if (!$this->ion_auth->in_group('kepala')) {
+			$this->session->set_flashdata('alert', $this->alert->set_alert(Alert::DANGER, $this->lang->line('login_must_admin')));
+			redirect(site_url('/auth/login'));
+		} else {
+		}
 	}
 
 	protected function render($the_view = NULL, $template = 'admin_master')

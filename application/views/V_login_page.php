@@ -1,8 +1,14 @@
-<div class="login-box">
-    <div class="card">
+<div class="login-box ">
+    <div class="col-12 text-center mb-5">
+        <h1><span style="font-weight: 900; color: #396EB0">SIP</span><span style="color: #DADDFC">ANDU</span></h1>
+        <h5>Sistem Informasi Posyandu</h5>
+    </div>
+    <div class="card mt-5">
         <div class="card-body login-card-body">
             <div class="login-logo">
-                <a href="<?= base_url() ?>index2.html"><b>Login</b></a>
+                <a href="<?= base_url() ?>index2.html">
+                    <h4>Login</h4>
+                </a>
             </div>
 
             <?php

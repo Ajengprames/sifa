@@ -1,14 +1,19 @@
 <?php
-defined('BASEPATH') OR exit('No direct script access allowed');
+defined('BASEPATH') or exit('No direct script access allowed');
 
-class Home extends Admin_Controller {
+class Home extends Admin_Controller
+{
 	private $services = null;
-    private $name = null;
-    private $parent_page = 'admin';
-	private $current_page = 'admin/group/';
-	public function __construct(){
+	private $name = null;
+	private $parent_page = 'admin';
+	private $current_page = 'admin/';
+	public function __construct()
+	{
 		parent::__construct();
-
+		$this->load->model(array(
+			'ibuhamil_model',
+			'balita_model',
+		));
 	}
 	public function index()
 	{
@@ -35,15 +40,16 @@ class Home extends Admin_Controller {
 		$add_menu = $this->load->view('templates/actions/modal_form', $add_menu, true);
 
 		$this->data["header_button"] =  $add_menu;
-		
+		$this->data['jml_ibuhamil'] = count($this->ibuhamil_model->ibuhamils()->result());
+		$this->data['jml_balita'] = count($this->balita_model->balitas()->result());
 		#################################################################3
 		$alert = $this->session->flashdata('alert');
 		$this->data["key"] = $this->input->get('key', FALSE);
-		$this->data["alert"] = (isset($alert)) ? $alert : NULL ;
+		$this->data["alert"] = (isset($alert)) ? $alert : NULL;
 		$this->data["current_page"] = $this->current_page;
 		$this->data["block_header"] = "Group";
 		$this->data["header"] = "Group";
 		$this->data["sub_header"] = 'Klik Tombol Action Untuk Aksi Lebih Lanjut';
-		$this->render( "admin/dashboard/content" );
+		$this->render("admin/dashboard/content");
 	}
 }

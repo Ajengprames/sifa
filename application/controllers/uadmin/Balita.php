@@ -61,7 +61,7 @@ class Balita extends Uadmin_Controller
         $this->form_validation->set_rules($this->services->validation_config());
         if ($this->form_validation->run() === TRUE) {
             $data['name'] = $this->input->post('name');
-            $data['tgl_lahir'] = date_format(date_create($data['tgl_lahir']), 'Y-m-d');
+            $data['tgl_lahir'] = date_format(date_create($this->input->post('tgl_lahir')), 'Y-m-d');
             $data['jk_id'] = $this->input->post('jk_id');
             $data['nama_ortu'] = $this->input->post('nama_ortu');
             $data['alamat'] = $this->input->post('alamat');
@@ -103,7 +103,7 @@ class Balita extends Uadmin_Controller
         $this->form_validation->set_rules($this->services->validation_config());
         if ($this->form_validation->run() === TRUE) {
             $data['name'] = $this->input->post('name');
-            $data['tgl_lahir'] = $this->input->post('tgl_lahir');
+            $data['tgl_lahir'] = date_format(date_create($this->input->post('tgl_lahir')), 'Y-m-d');
             $data['jk_id'] = $this->input->post('jk_id');
             $data['nama_ortu'] = $this->input->post('nama_ortu');
             $data['alamat'] = $this->input->post('alamat');

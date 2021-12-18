@@ -49,7 +49,7 @@ class Jadwalibu_services
         $select_penyuluhanibu = $this->select_penyuluhanibu();
         $table["header"] = array(
             'jeniskegiatan_name' => 'Jenis Kegiatan',
-            'jadwal' => 'Tanggal Lahir',
+            'jadwal' => 'Jadwal Kegiatan',
             'imunisasiibu_name' => 'Jenis Imunisasi',
             'penyuluhanibu_name' => 'Jenis penyuluhan',
         );
@@ -74,7 +74,7 @@ class Jadwalibu_services
                     ),
                     "jadwal" => array(
                         'type' => 'date',
-                        'label' => 'Tanggal Lahir',
+                        'label' => 'Jadwal Kegiatan',
                     ),
                     "imunisasiibu_id" => array(
                         'type' => 'select',
@@ -90,7 +90,7 @@ class Jadwalibu_services
                 "title" => "Group",
             ),
             array(
-                "name" => 'X',
+                "name" => 'Hapus',
                 "type" => "modal_delete",
                 "modal_id" => "delete_",
                 "url" => site_url($_page . "delete/"),
@@ -246,6 +246,24 @@ class Jadwalibu_services
         );
 
         return $config;
+        $config = array(
+            array(
+                'field' => 'name',
+                'label' => 'name',
+                'rules' =>  'trim|required',
+            ),
+        );
+
+        return $config;
+        $config = array(
+            array(
+                'field' => 'name',
+                'label' => 'name',
+                'rules' =>  'trim|required',
+            ),
+        );
+
+        return $config;
     }
     public function validation_config()
     {
@@ -293,7 +311,7 @@ class Jadwalibu_services
                 ),
                 "jadwal" => array(
                     'type' => 'date',
-                    'label' => 'Tanggal Lahir',
+                    'label' => 'Jadwal Kegiatan',
                 ),
                 "imunisasiibu_id" => array(
                     'type' => 'select',

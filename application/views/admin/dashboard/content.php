@@ -34,7 +34,7 @@
             <div class="icon">
               <i class="fas fa-user"></i>
             </div>
-            <a href="#" class="small-box-footer">Detail <i class="fas fa-arrow-circle-right"></i></a>
+            <!--<a href="#" class="small-box-footer">Detail <i class="fas fa-arrow-circle-right"></i></a>-->
           </div>
         </div>
         <!-- ./col -->
@@ -49,7 +49,7 @@
             <div class="icon">
               <i class="fas fa-baby"></i>
             </div>
-            <a href="#" class="small-box-footer">Detail <i class="fas fa-arrow-circle-right"></i></a>
+            <!--<a href="#" class="small-box-footer">Detail <i class="fas fa-arrow-circle-right"></i></a>-->
           </div>
         </div>
         <!-- ./col -->

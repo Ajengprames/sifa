@@ -76,7 +76,7 @@ class Balita_services
                 "title" => "Group",
             ),
             array(
-                "name" => 'X',
+                "name" => 'Hapus',
                 "type" => "modal_delete",
                 "modal_id" => "delete_",
                 "url" => site_url($_page . "delete/"),
