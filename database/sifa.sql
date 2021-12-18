@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 05 Des 2021 pada 18.32
+-- Waktu pembuatan: 18 Des 2021 pada 21.30
 -- Versi server: 10.4.21-MariaDB
 -- Versi PHP: 8.0.12
 
@@ -28,10 +28,10 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE `balita` (
-  `id` int(11) UNSIGNED NOT NULL,
+  `id` int(11) NOT NULL,
   `name` varchar(30) NOT NULL,
   `tgl_lahir` date NOT NULL,
-  `jk_id` int(11) UNSIGNED NOT NULL,
+  `jk_id` int(11) NOT NULL,
   `nama_ortu` varchar(30) NOT NULL,
   `alamat` varchar(40) NOT NULL,
   `no_hp` char(12) NOT NULL
@@ -43,8 +43,8 @@ CREATE TABLE `balita` (
 
 INSERT INTO `balita` (`id`, `name`, `tgl_lahir`, `jk_id`, `nama_ortu`, `alamat`, `no_hp`) VALUES
 (1, 'Rayhan Pramudyo', '2002-12-12', 1, 'Sukma Mawaddah', 'jl. Mastrip', '083972834'),
-(2, 'aa', '0000-00-00', 1, 'Budi', 'jl. Mastrip', '081249079110'),
-(3, 'Adinda Ajeng', '2021-12-03', 1, '', 'jl. Mastrip', '081249079110'),
+(2, 'aa', '2012-08-12', 4, 'Budi', 'jl. Mastrip', '081249079110'),
+(3, 'Puput Mega Wijayanti', '2021-12-03', 1, 'Anwar Zinar', 'jl. Mastrip', '081249079110'),
 (4, 'Adinda Ajeng', '0000-00-00', 1, 'Budi', 'jl. Mastrip', '081249079110');
 
 -- --------------------------------------------------------
@@ -98,7 +98,8 @@ INSERT INTO `groups` (`id`, `name`, `description`) VALUES
 (1, 'admin', 'Administrator'),
 (2, 'uadmin', 'user admin'),
 (3, 'bidan', '-'),
-(4, 'kepala puskesmas', '-');
+(4, 'kepala', '-'),
+(5, 'pharmacist', '-');
 
 -- --------------------------------------------------------
 
@@ -120,8 +121,11 @@ CREATE TABLE `ibuhamil` (
 --
 
 INSERT INTO `ibuhamil` (`id`, `name`, `tgl_lahir`, `jk_id`, `alamat`, `no_hp`) VALUES
-(1, 'Soraya', '2009-12-03', 1, 'jl. Kemuning', '02147483647'),
-(2, 'Anggita', '1995-12-15', 1, 'jl. Mastrip', '02147483647');
+(1, 'Soraya', '2001-04-12', 1, 'jl. Kemuning', '02147483647'),
+(2, 'Anggita', '1995-12-15', 1, 'jl. Mastrip', '02147483647'),
+(3, 'Adinda Ajeng', '2018-11-01', 1, 'jl. Mastrip', '081249079110'),
+(4, 'Anggita', '2000-09-09', 1, 'jl. Mastrip', '081249079110'),
+(5, 'Kepala Puskesmas', '2018-11-15', 1, 'Lumajang', '08136842972');
 
 -- --------------------------------------------------------
 
@@ -139,11 +143,11 @@ CREATE TABLE `imunisasibalita` (
 --
 
 INSERT INTO `imunisasibalita` (`id`, `name`) VALUES
-(1, 'BCG (Penyakit TBC)'),
+(1, 'Tidak ada'),
 (2, 'DPT (Penyakit difteri tetanus)'),
 (3, 'Polio'),
 (4, 'Hepatitis B'),
-(5, 'Tidak ada');
+(5, 'BCG (Penyakit TBC)');
 
 -- --------------------------------------------------------
 
@@ -161,11 +165,11 @@ CREATE TABLE `imunisasiibu` (
 --
 
 INSERT INTO `imunisasiibu` (`id`, `name`) VALUES
-(1, 'Vaksin TT'),
+(1, 'Tidak Ada'),
 (2, 'Vaksin Campak'),
 (3, 'Vaksin Hepatitis'),
 (4, 'Vaksin Difteri'),
-(5, 'Tidak ada');
+(5, 'Vaksin TT');
 
 -- --------------------------------------------------------
 
@@ -195,6 +199,13 @@ CREATE TABLE `jadwalbalita` (
   `penyuluhanbalita_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- Dumping data untuk tabel `jadwalbalita`
+--
+
+INSERT INTO `jadwalbalita` (`id`, `jeniskegiatan_id`, `jadwal`, `imunisasibalita_id`, `penyuluhanbalita_id`) VALUES
+(1, 2, '2021-12-15', 1, 4);
+
 -- --------------------------------------------------------
 
 --
@@ -208,6 +219,13 @@ CREATE TABLE `jadwalibu` (
   `imunisasiibu_id` int(11) NOT NULL,
   `penyuluhanibu_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data untuk tabel `jadwalibu`
+--
+
+INSERT INTO `jadwalibu` (`id`, `jeniskegiatan_id`, `jadwal`, `imunisasiibu_id`, `penyuluhanibu_id`) VALUES
+(1, 2, '2021-12-09', 1, 3);
 
 -- --------------------------------------------------------
 
@@ -246,6 +264,22 @@ CREATE TABLE `jk` (
 INSERT INTO `jk` (`id`, `name`) VALUES
 (1, 'Perempuan'),
 (4, 'Laki-laki');
+
+-- --------------------------------------------------------
+
+--
+-- Struktur dari tabel `laporan`
+--
+
+CREATE TABLE `laporan` (
+  `id` int(11) NOT NULL,
+  `pemeriksaanibu_id` int(11) NOT NULL,
+  `pemeriksaanbalita_id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `date` date NOT NULL,
+  `timestamp` int(11) NOT NULL,
+  `status` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
@@ -312,28 +346,30 @@ INSERT INTO `menus` (`id`, `menu_id`, `name`, `link`, `list_id`, `icon`, `status
 (104, 1, 'User', 'admin/user_management', 'user_management_index', 'users', 1, 2, '-'),
 (106, 103, 'Menu', 'admin/menus', 'menus_index', 'bars', 1, 1, '-'),
 (107, 2, 'Beranda', 'user/home', 'home_index', 'home', 1, 1, '-'),
-(111, 4, 'Laporan', 'pharmacist/prescription', 'prescription_index', 'file', 1, 1, '-'),
+(111, 4, 'Laporan', 'laporan/', '', 'file', 1, 1, '-'),
 (113, 2, 'Data Master', 'uadmin/farmasi', 'uadmin_farmasi', 'database', 1, 1, '-'),
 (119, 113, 'Data User', 'uadmin/users', '-', 'users', 1, 1, '-'),
 (120, 113, 'Data Ibu Hamil', 'uadmin/ibuhamil', 'ibuhamil-index', 'female', 1, 1, '-'),
-(121, 113, 'Data Balita', 'uadmin/balita', 'balita-index', 'child', 1, 2, '-'),
-(122, 3, 'Pemeriksaan', 'bidan/ibuhamil', '-', 'stethoscope', 1, 1, '-'),
-(123, 122, 'Ibu Hamil', 'bidan/pemeriksaanibu', 'pemeriksaanibu-index', 'female', 1, 1, '-'),
-(124, 122, 'Balita', 'bidan/pemeriksaanbalita', 'pemeriksaanbalita-index', 'child', 1, 2, '-'),
-(125, 111, 'Laporan Imunisasi', 'kepala puskesmas/transaction', '-', 'tablet', 1, 1, '-'),
+(121, 113, 'Data Balita', 'uadmin/balita', 'balita-index', 'baby', 1, 2, '-'),
+(125, 111, 'Laporan Imunisasi', 'kepala/laporan', '-', 'tablet', 1, 1, '-'),
 (126, 2, 'Transaksi', 'uadmin/', '-', 'cubes', 1, 1, '-'),
 (127, 126, 'Jadwal Kegiatan', 'uadmin/', '-', 'book', 1, 1, '-'),
 (129, 126, 'SMS Gateway', 'uadmin/pesan', '-', 'mobile', 1, 1, '-'),
-(130, 3, 'Pasien', 'doctor/patient', 'patient-index', 'home', 1, 1, '-'),
+(130, 3, 'Pasien', 'bidan/', '', 'server', 1, 1, '-'),
 (133, 127, 'Ibu Hamil', 'uadmin/jadwalibu', '-', 'female', 1, 1, '-'),
-(134, 127, 'Balita', 'uadmin/jadwalbalita', '-', 'child', 1, 1, '-'),
+(134, 127, 'Balita', 'uadmin/jadwalbalita', '-', 'baby', 1, 1, '-'),
 (135, 103, 'Group', 'admin/group', 'group-index', 'list', 1, 1, '-'),
-(136, 103, 'Jenis Kelamin', 'admin/jk', 'jk-index', 'male', 1, 1, '-'),
-(137, 103, 'Jenis Imunisasi Ibu', 'admin/imunisasiibu', 'imunisasiibu-index', 'female', 1, 1, '-'),
-(138, 103, 'Jenis Imunisasi Balita', 'admin/imunisasibalita', 'imunisasibalita-index', 'child', 1, 1, '-'),
-(139, 103, 'Penyuluhan Ibu', 'admin/penyuluhanibu', 'penyuluhanibu-index', 'tag', 1, 1, '-'),
-(140, 103, 'Penyuluhan Balita', 'admin/penyuluhanbalita', 'penyuluhanbalita-index', 'tags', 1, 1, '-'),
-(141, 103, 'Jenis Kegiatan', 'admin/jeniskegiatan', 'jeniskegiatan-index', 'link', 1, 4, '-');
+(136, 103, 'Jenis Kelamin', 'admin/jk', 'jk-index', 'venus-mars', 1, 1, '-'),
+(142, 130, 'Data Ibu Hamil', 'bidan/ibuhamil', '-', 'female', 1, 1, '-'),
+(143, 130, 'Data balita', 'bidan/balita', '-', 'baby', 1, 1, '-'),
+(144, 113, 'Jenis Kegiatan', 'uadmin/jeniskegiatan', '-', 'list', 1, 4, '-'),
+(145, 113, 'Jenis Imunisasi Ibu', 'uadmin/imunisasiibu', '-', 'female', 1, 5, '-'),
+(146, 113, 'Jenis Imunisasi Balita', 'uadmin/imunisasibalita', '-', 'baby', 1, 6, '-'),
+(147, 113, 'Penyuluhan Ibu', 'uadmin/penyuluhanibu', '-', 'tag', 1, 7, '-'),
+(148, 113, 'Penyuluhan Balita', 'uadmin/penyuluhanbalita', '-', 'tags', 1, 8, '-'),
+(149, 5, 'PDF', 'pharmacist/pdf', '-', 'home', 1, 1, '-'),
+(150, 5, 'Transaction', 'pharmacist/transaction', '-', 'home', 1, 1, '-'),
+(151, 5, 'Prescription', 'pharmacist/prescription', '-', 'home', 1, 1, '-');
 
 -- --------------------------------------------------------
 
@@ -377,6 +413,39 @@ INSERT INTO `patient_group` (`id`, `name`, `description`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Struktur dari tabel `pemeriksaanbalita`
+--
+
+CREATE TABLE `pemeriksaanbalita` (
+  `id` int(11) NOT NULL,
+  `balita_id` int(11) NOT NULL,
+  `bb` varchar(10) NOT NULL,
+  `tb` varchar(10) NOT NULL,
+  `suhu` varchar(10) NOT NULL,
+  `imunisasibalita_id` int(11) NOT NULL,
+  `penyuluhanbalita_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
+-- Struktur dari tabel `pemeriksaanibu`
+--
+
+CREATE TABLE `pemeriksaanibu` (
+  `id` int(11) NOT NULL,
+  `ibuhamil_id` int(11) NOT NULL,
+  `darah` varchar(10) NOT NULL,
+  `bb` varchar(10) NOT NULL,
+  `jantung` varchar(10) NOT NULL,
+  `suhu` varchar(10) NOT NULL,
+  `imunisasiibu_id` int(11) NOT NULL,
+  `penyuluhanibu_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
 -- Struktur dari tabel `penyuluhanbalita`
 --
 
@@ -390,11 +459,11 @@ CREATE TABLE `penyuluhanbalita` (
 --
 
 INSERT INTO `penyuluhanbalita` (`id`, `name`) VALUES
-(1, 'ASI'),
+(1, 'Tidak ada'),
 (2, 'Gizi balita'),
 (3, 'Tumbuh Kembang Anak'),
-(4, 'PHBS (Perilaku Hidup Bersih Se'),
-(5, 'Tidak ada');
+(4, 'PHBS'),
+(5, 'ASI');
 
 -- --------------------------------------------------------
 
@@ -412,9 +481,10 @@ CREATE TABLE `penyuluhanibu` (
 --
 
 INSERT INTO `penyuluhanibu` (`id`, `name`) VALUES
-(1, 'Penyakit menular'),
+(1, 'Tidak ada'),
 (2, 'KB'),
-(3, 'PHBS');
+(3, 'PHBS'),
+(4, 'Penyakit menular');
 
 -- --------------------------------------------------------
 
@@ -522,10 +592,11 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `ip_address`, `username`, `password`, `email`, `activation_selector`, `activation_code`, `forgotten_password_selector`, `forgotten_password_code`, `forgotten_password_time`, `remember_selector`, `remember_code`, `created_on`, `last_login`, `active`, `first_name`, `last_name`, `phone`, `image`, `address`, `nip`) VALUES
-(1, '127.0.0.1', 'admin@fixl.com', '$2y$12$XpBgMvQ5JzfvN3PTgf/tA.XwxbCOs3mO0a10oP9/11qi1NUpv46.u', 'admin@fixl.com', NULL, '', NULL, NULL, NULL, NULL, NULL, 1268889823, 1638717891, 1, 'Admin', 'Ajeng', '081342989185', 'USER_1_1638272930.jpg', 'admin', NULL),
-(13, '::1', 'uadmin@gmail.com', '$2y$10$78SZyvKRKMU7nPCew9w4nOpEUmJ1SeTV4L4ZG2NXXSfbEaswqoepq', 'uadmin@gmail.com', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1568678256, 1638718936, 1, 'Febriyanti', 'Kader', '00', 'USER_13_1568678463.jpg', 'jln mutiara no 8', NULL),
-(14, '::1', 'kepala@gmail.com', '$2y$10$Un1PLu68UHwSBfkT/8oa1.Z1bdwuJehfzaMrx5y3TWeR.2kPfIg7a', 'kepala@gmail.com', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1572856687, 1638590526, 1, 'Kepala', 'Puskesmas', '081234567890', 'default.jpg', 'Jalan', NULL),
-(15, '::1', 'bidan@gmail.com', '$2y$10$8fJac0Hyx55d9OxLOL8BK.iJ8toU0pwoZL7YeUBf8YEm4GmdVpaRy', 'bidan@gmail.com', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1572857608, 1638711899, 1, 'Iska', 'Bidan', '08123', 'USER_15_1638268815.png', 'Jalan', NULL);
+(1, '127.0.0.1', 'admin@fixl.com', '$2y$12$XpBgMvQ5JzfvN3PTgf/tA.XwxbCOs3mO0a10oP9/11qi1NUpv46.u', 'admin@fixl.com', NULL, '', NULL, NULL, NULL, NULL, NULL, 1268889823, 1639727405, 1, 'Admin', 'Ajeng', '081342989185', 'USER_1_1638272930.jpg', 'admin', NULL),
+(13, '::1', 'uadmin@gmail.com', '$2y$10$78SZyvKRKMU7nPCew9w4nOpEUmJ1SeTV4L4ZG2NXXSfbEaswqoepq', 'uadmin@gmail.com', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1568678256, 1639666839, 1, 'User Admin', 'Kader', '00', 'USER_13_1639103000.png', 'jln mutiara no 8', NULL),
+(14, '::1', 'kepala@gmail.com', '$2y$10$Un1PLu68UHwSBfkT/8oa1.Z1bdwuJehfzaMrx5y3TWeR.2kPfIg7a', 'kepala@gmail.com', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1572856687, 1639667716, 1, 'Kepala', 'Puskesmas', '081234567890', 'default.jpg', 'Jalan', NULL),
+(15, '::1', 'bidan@gmail.com', '$2y$10$8fJac0Hyx55d9OxLOL8BK.iJ8toU0pwoZL7YeUBf8YEm4GmdVpaRy', 'bidan@gmail.com', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1572857608, 1639849464, 1, 'User', 'Bidan', '08123', 'USER_15_1638268815.png', 'Jalan', NULL),
+(16, '::1', 'adindaajeng61@gmail.com', '$2y$10$AbvcI96VROUogkTbs4y8LOcT6zS2RBjEuyl28OjdV0xDpazQjkmom', 'adindaajeng61@gmail.com', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1639586794, 1639587082, 1, 'Adinda', 'Ajeng', '081249079110', 'default.jpg', 'jl. Mastrip', NULL);
 
 -- --------------------------------------------------------
 
@@ -547,7 +618,8 @@ INSERT INTO `users_groups` (`id`, `user_id`, `group_id`) VALUES
 (1, 1, 1),
 (37, 13, 2),
 (39, 14, 4),
-(40, 15, 3);
+(41, 15, 3),
+(43, 16, 5);
 
 --
 -- Indexes for dumped tables
@@ -631,6 +703,12 @@ ALTER TABLE `jk`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indeks untuk tabel `laporan`
+--
+ALTER TABLE `laporan`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indeks untuk tabel `login_attempts`
 --
 ALTER TABLE `login_attempts`
@@ -661,6 +739,24 @@ ALTER TABLE `patient`
 --
 ALTER TABLE `patient_group`
   ADD PRIMARY KEY (`id`);
+
+--
+-- Indeks untuk tabel `pemeriksaanbalita`
+--
+ALTER TABLE `pemeriksaanbalita`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `balita_id` (`balita_id`),
+  ADD KEY `imunisasibalita_id` (`imunisasibalita_id`),
+  ADD KEY `penyuluhanbalita_id` (`penyuluhanbalita_id`);
+
+--
+-- Indeks untuk tabel `pemeriksaanibu`
+--
+ALTER TABLE `pemeriksaanibu`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `ibuhamil_id` (`ibuhamil_id`),
+  ADD KEY `imunisasiibu_id` (`imunisasiibu_id`),
+  ADD KEY `penyuluhanibu_id` (`penyuluhanibu_id`);
 
 --
 -- Indeks untuk tabel `penyuluhanbalita`
@@ -727,7 +823,7 @@ ALTER TABLE `users_groups`
 -- AUTO_INCREMENT untuk tabel `balita`
 --
 ALTER TABLE `balita`
-  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT untuk tabel `category`
@@ -745,13 +841,13 @@ ALTER TABLE `doctor_specialist`
 -- AUTO_INCREMENT untuk tabel `groups`
 --
 ALTER TABLE `groups`
-  MODIFY `id` mediumint(8) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` mediumint(8) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT untuk tabel `ibuhamil`
 --
 ALTER TABLE `ibuhamil`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT untuk tabel `imunisasibalita`
@@ -775,13 +871,13 @@ ALTER TABLE `item`
 -- AUTO_INCREMENT untuk tabel `jadwalbalita`
 --
 ALTER TABLE `jadwalbalita`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT untuk tabel `jadwalibu`
 --
 ALTER TABLE `jadwalibu`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT untuk tabel `jeniskegiatan`
@@ -794,6 +890,12 @@ ALTER TABLE `jeniskegiatan`
 --
 ALTER TABLE `jk`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
+-- AUTO_INCREMENT untuk tabel `laporan`
+--
+ALTER TABLE `laporan`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT untuk tabel `login_attempts`
@@ -811,7 +913,7 @@ ALTER TABLE `medicine`
 -- AUTO_INCREMENT untuk tabel `menus`
 --
 ALTER TABLE `menus`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=142;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=152;
 
 --
 -- AUTO_INCREMENT untuk tabel `patient`
@@ -826,6 +928,18 @@ ALTER TABLE `patient_group`
   MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
+-- AUTO_INCREMENT untuk tabel `pemeriksaanbalita`
+--
+ALTER TABLE `pemeriksaanbalita`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT untuk tabel `pemeriksaanibu`
+--
+ALTER TABLE `pemeriksaanibu`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT untuk tabel `penyuluhanbalita`
 --
 ALTER TABLE `penyuluhanbalita`
@@ -835,7 +949,7 @@ ALTER TABLE `penyuluhanbalita`
 -- AUTO_INCREMENT untuk tabel `penyuluhanibu`
 --
 ALTER TABLE `penyuluhanibu`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT untuk tabel `prescription`
@@ -859,13 +973,13 @@ ALTER TABLE `specialist`
 -- AUTO_INCREMENT untuk tabel `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT untuk tabel `users_groups`
 --
 ALTER TABLE `users_groups`
-  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=41;
+  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=44;
 
 --
 -- Ketidakleluasaan untuk tabel pelimpahan (Dumped Tables)
@@ -897,6 +1011,22 @@ ALTER TABLE `medicine`
 --
 ALTER TABLE `patient`
   ADD CONSTRAINT `patient_ibfk_1` FOREIGN KEY (`patient_group_id`) REFERENCES `patient_group` (`id`);
+
+--
+-- Ketidakleluasaan untuk tabel `pemeriksaanbalita`
+--
+ALTER TABLE `pemeriksaanbalita`
+  ADD CONSTRAINT `pemeriksaanbalita_ibfk_1` FOREIGN KEY (`imunisasibalita_id`) REFERENCES `imunisasibalita` (`id`),
+  ADD CONSTRAINT `pemeriksaanbalita_ibfk_2` FOREIGN KEY (`balita_id`) REFERENCES `balita` (`id`),
+  ADD CONSTRAINT `pemeriksaanbalita_ibfk_3` FOREIGN KEY (`penyuluhanbalita_id`) REFERENCES `penyuluhanbalita` (`id`);
+
+--
+-- Ketidakleluasaan untuk tabel `pemeriksaanibu`
+--
+ALTER TABLE `pemeriksaanibu`
+  ADD CONSTRAINT `pemeriksaanibu_ibfk_1` FOREIGN KEY (`ibuhamil_id`) REFERENCES `ibuhamil` (`id`),
+  ADD CONSTRAINT `pemeriksaanibu_ibfk_2` FOREIGN KEY (`imunisasiibu_id`) REFERENCES `imunisasiibu` (`id`),
+  ADD CONSTRAINT `pemeriksaanibu_ibfk_3` FOREIGN KEY (`penyuluhanibu_id`) REFERENCES `penyuluhanibu` (`id`);
 
 --
 -- Ketidakleluasaan untuk tabel `prescription`

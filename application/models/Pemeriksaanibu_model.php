@@ -124,6 +124,7 @@ class Pemeriksaanibu_model extends MY_Model
             $this->limit($limit);
         }
         $this->select($this->table . '.*');
+        $this->select($this->table . '.date AS _date');
         $this->select('ibuhamil.name AS ibuhamil_name');
         $this->select('ibuhamil.tgl_lahir AS ibuhamil_tgl_lahir');
         $this->select('ibuhamil.jk_id AS ibuhamil_jk_id');
@@ -131,6 +132,7 @@ class Pemeriksaanibu_model extends MY_Model
         $this->select('ibuhamil.no_hp AS ibuhamil_no_hp');
         $this->select('imunisasiibu.name AS imunisasiibu_name');
         $this->select('penyuluhanibu.name AS penyuluhanibu_name');
+
         $this->join(
             'ibuhamil',
             'ibuhamil.id = pemeriksaanibu.ibuhamil_id',
