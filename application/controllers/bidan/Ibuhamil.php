@@ -16,6 +16,8 @@ class Ibuhamil extends Bidan_Controller
             'jk_model',
             'ibuhamil_model',
             'pemeriksaanibu_model',
+            'imunisasiibu_model',
+            'penyuluhanibu_model',
         ));
     }
     public function index()
@@ -65,10 +67,13 @@ class Ibuhamil extends Bidan_Controller
 
     public function add()
     {
-        if (!($_POST)) redirect(site_url($this->current_page));
+        // if (!($_POST)) redirect(site_url($this->current_page));
 
         // echo var_dump( $data );return;
         $this->form_validation->set_rules($this->services->validation_config());
+
+        $this->render("templates/contents/plain_content_form");
+
         if ($this->form_validation->run() === TRUE) {
             // $data['name'] = $this->input->post('name');
             // $data['tgl_lahir'] = date_format(date_create($this->input->post('tgl_lahir')), 'Y-m-d');
@@ -96,7 +101,7 @@ class Ibuhamil extends Bidan_Controller
                 $this->session->set_flashdata('alert', $this->alert->set_alert(Alert::DANGER, $this->pemeriksaanibu_model->errors()));
             }
         } else {
-            $this->data['message'] = (validation_errors() ? validation_errors() : ($this->m_account->errors() ? $this->pemeriksaanibu_model->errors() : $this->session->flashdata('message')));
+            $this->data['message'] = (validation_errors() ? validation_errors() : ($this->pemeriksaanibu_model->errors() ? $this->pemeriksaanibu_model->errors() : $this->session->flashdata('message')));
             if (validation_errors() || $this->pemeriksaanibu_model->errors()) $this->session->set_flashdata('alert', $this->alert->set_alert(Alert::DANGER, $this->data['message']));
 
             $alert = $this->session->flashdata('alert');
@@ -107,7 +112,7 @@ class Ibuhamil extends Bidan_Controller
             $this->data["header"] = "Tambah User ";
             $this->data["sub_header"] = 'Klik Tombol Action Untuk Aksi Lebih Lanjut';
 
-            $form_data = $this->ion_auth->get_form_data();
+            $form_data = $this->services->get_form_data();
             $form_data = $this->load->view('templates/form/plain_form', $form_data, TRUE);
 
             $this->data["contents"] =  $form_data;
