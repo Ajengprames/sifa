@@ -1,5 +1,5 @@
   <!-- Main Sidebar Container -->
-  <aside class="main-sidebar sidebar-light-primary elevation-4">
+  <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <!-- Brand Logo -->
     <a href="<?= base_url()  ?>" class="brand-link">
       <img src="<?= base_url() . FAVICON_IMAGE ?>" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
@@ -11,8 +11,8 @@
       <!-- Sidebar user panel (optional) -->
       <div class="user-panel mt-3 pb-3 mb-3 d-flex">
         <div class="image">
-          <!-- <img src="<?= base_url('assets/') ?>dist/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image"> -->
-          <img class="img-circle elevation-2" src="<?php echo $user_image ?>" width="48" height="48" alt="User" />
+          <img src="<?= base_url('assets/') ?>img/user.png" class="img-circle elevation-2" alt="User Image">
+          <!-- <img class="img-circle elevation-2" src="<?php echo $user_image ?>" width="48" height="48" alt="User" /> -->
         </div>
         <div class="info">
           <a href="<?= base_url('user/profile') ?>" class="d-block"><?php echo ucwords($this->session->userdata('user_profile_name')) ?></a>

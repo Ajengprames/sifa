@@ -23,6 +23,8 @@
 </script>
 <!-- Bootstrap 4 -->
 <script src="<?= base_url('assets/') ?>plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="<?= base_url('assets/') ?>plugins/datatables/jquery.dataTables.js"></script>
+<script src="<?= base_url('assets/') ?>plugins/datatables/jquery.dataTables.min.js"></script>
 <!-- ChartJS -->
 <script src="<?= base_url('assets/') ?>plugins/chart.js/Chart.min.js"></script>
 <!-- Sparkline -->
@@ -68,6 +70,15 @@
     });
     $("#btn").click(function() {
       $('div.note-editable').height(150);
+    });
+    $('#example').DataTable({
+      "paging": false,
+      "lengthChange": false,
+      "searching": true,
+      "ordering": true,
+      "info": true,
+      "autowidth": false,
+
     });
   });
 </script>

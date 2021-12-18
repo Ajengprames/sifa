@@ -49,7 +49,7 @@ class Jadwalbalita_services
         $select_penyuluhanbalita = $this->select_penyuluhanbalita();
         $table["header"] = array(
             'jeniskegiatan_name' => 'Jenis Kegiatan',
-            'jadwal' => 'Tanggal Lahir',
+            'jadwal' => 'Jadwal Kegiatan',
             'imunisasibalita_name' => 'Jenis Imunisasi',
             'penyuluhanbalita_name' => 'Jenis penyuluhan',
         );
@@ -70,11 +70,11 @@ class Jadwalbalita_services
                     "jeniskegiatan_id" => array(
                         'type' => 'select',
                         'label' => "Jenis Kegiatan",
-                        'option' => $select_jeniskegiatan,
+                        'options' => $select_jeniskegiatan,
                     ),
                     "jadwal" => array(
                         'type' => 'date',
-                        'label' => 'Tanggal Lahir',
+                        'label' => 'Jadwal Kegiatan',
                     ),
                     "imunisasibalita_id" => array(
                         'type' => 'select',
@@ -84,13 +84,13 @@ class Jadwalbalita_services
                     "penyuluhanbalita_id" => array(
                         'type' => 'select',
                         'label' => 'Jenis Penyuluhan',
-                        'option' => $select_penyuluhanbalita,
+                        'options' => $select_penyuluhanbalita,
                     ),
                 ),
                 "title" => "Group",
             ),
             array(
-                "name" => 'X',
+                "name" => 'Hapus',
                 "type" => "modal_delete",
                 "modal_id" => "delete_",
                 "url" => site_url($_page . "delete/"),
@@ -289,11 +289,11 @@ class Jadwalbalita_services
                 "jeniskegiatan_id" => array(
                     'type' => 'select',
                     'label' => "Jenis Kegiatan",
-                    'option' => $select_jeniskegiatan,
+                    'options' => $select_jeniskegiatan,
                 ),
                 "jadwal" => array(
                     'type' => 'date',
-                    'label' => 'Tanggal Lahir',
+                    'label' => 'Jadwal Kegiatan',
                 ),
                 "imunisasibalita_id" => array(
                     'type' => 'select',
@@ -303,7 +303,7 @@ class Jadwalbalita_services
                 "penyuluhanbalita_id" => array(
                     'type' => 'select',
                     'label' => 'Jenis Penyuluhan',
-                    'option' => $select_penyuluhanbalita,
+                    'options' => $select_penyuluhanbalita,
                 ),
             ),
             'data' => NULL

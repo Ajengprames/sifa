@@ -15,9 +15,9 @@ class Ibuhamil_services
     public function select_jk()
     {
         $this->load->model('jk_model');
-        $jks = $this->jk_model->jk()->result();
+        $jk = $this->jk_model->jk()->result();
         $select_jk = [];
-        foreach ($jks as  $jk) {
+        foreach ($jk as  $jk) {
             $select_jk[$jk->id] = $jk->name;
         }
         return $select_jk;
@@ -71,7 +71,7 @@ class Ibuhamil_services
                 "title" => "Group",
             ),
             array(
-                "name" => 'X',
+                "name" => 'Hapus',
                 "type" => "modal_delete",
                 "modal_id" => "delete_",
                 "url" => site_url($_page . "delete/"),

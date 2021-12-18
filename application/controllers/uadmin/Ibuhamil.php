@@ -61,7 +61,9 @@ class Ibuhamil extends Uadmin_Controller
         $this->form_validation->set_rules($this->services->validation_config());
         if ($this->form_validation->run() === TRUE) {
             $data['name'] = $this->input->post('name');
-            $data['tgl_lahir'] = date_format(date_create($data['tgl_lahir']), 'Y-m-d');
+            $data['tgl_lahir'] = date_format(date_create($this->input->post('tgl_lahir')), 'Y-m-d');
+            // var_dump($data['tgl_lahir']);
+            // die;
             $data['jk_id'] = $this->input->post('jk_id');
             $data['alamat'] = $this->input->post('alamat');
             $data['no_hp'] = $this->input->post('no_hp');
@@ -102,7 +104,7 @@ class Ibuhamil extends Uadmin_Controller
         $this->form_validation->set_rules($this->services->validation_config());
         if ($this->form_validation->run() === TRUE) {
             $data['name'] = $this->input->post('name');
-            $data['tgl_lahir'] = $this->input->post('tgl_lahir');
+            $data['tgl_lahir'] = date_format(date_create($this->input->post('tgl_lahir')), 'Y-m-d');
             $data['jk_id'] = $this->input->post('jk_id');
             $data['alamat'] = $this->input->post('alamat');
             $data['no_hp'] = $this->input->post('no_hp');

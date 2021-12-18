@@ -12,26 +12,44 @@ class Pemeriksaanibu_services
     {
         return get_instance()->$var;
     }
-    public function select_jeniskegiatan()
+
+    public function select_imunisasiibu()
     {
-        $this->load->model('jeniskegiatan_model');
-        $jeniskegiatans = $this->jeniskegiatan_model->jeniskegiatans()->result();
-        $select_jeniskegiatan = [];
-        foreach ($jeniskegiatans as  $jeniskegiatan) {
-            $select_jeniskegiatan[$jeniskegiatan->id] = $jeniskegiatan->name;
+        $this->load->model('imunisasiibu_model');
+        $imunisasiibus = $this->imunisasiibu_model->imunisasiibus()->result();
+        $select_imunisasiibu = [];
+        foreach ($imunisasiibus as  $imunisasiibu) {
+            $select_imunisasiibu[$imunisasiibu->id] = $imunisasiibu->name;
         }
-        return $select_jeniskegiatan;
+        return $select_imunisasiibu;
+    }
+    public function select_penyuluhanibu()
+    {
+        $this->load->model('penyuluhanibu_model');
+        $penyuluhanibus = $this->penyuluhanibu_model->penyuluhanibus()->result();
+        $select_penyuluhanibu = [];
+        foreach ($penyuluhanibus as  $penyuluhanibu) {
+            $select_penyuluhanibu[$penyuluhanibu->id] = $penyuluhanibu->name;
+        }
+        return $select_penyuluhanibu;
     }
 
     public function get_table_config($_page, $start_number = 1)
     {
-        $select_jeniskegiatan = $this->select_jeniskegiatan();
-
+        $select_imunisasiibu = $this->select_imunisasiibu();
+        $select_penyuluhanibu = $this->select_penyuluhanibu();
         $table["header"] = array(
-            'jeniskegiatan_name' => 'Jenis Kegiatan',
-            'jadwal' => 'Tanggal Lahir',
-            'imunisasiibu_name' => 'Jenis Imunisasi',
-            'penyuluhanibu_name' => 'Jenis penyuluhan',
+            'ibuhamil_name' => 'Nama',
+            'ibuhamil_tgl_lahir' => 'Tgl Lahir',
+            'ibuhamil_jk_id' => 'Jenis Kelamin',
+            'ibuhamil_alamat' => 'Alamat',
+            'ibuhamil_no_hp' => 'No.HP',
+            'imunisasiibu_name' => 'Imunisasi',
+            'penyuluhanibu_name' => 'Penyuluhan',
+            'darah' => 'Tensi',
+            'bb' => 'BB',
+            'jantung' => 'Detak jantung janin',
+            'suhu' => 'Suhu badan',
         );
         $table["number"] = $start_number;
         $table["action"] = array(
@@ -47,69 +65,54 @@ class Pemeriksaanibu_services
                         'type' => 'hidden',
                         'label' => "id",
                     ),
-                    "jeniskegiatan_id" => array(
-                        'type' => 'select',
-                        'label' => "Jenis Kegiatan",
-                        'option' => $select_jeniskegiatan,
+                    "ibuhamil_name" => array(
+                        'type' => 'text',
+                        'label' => "Nama Ibu Hamil",
                     ),
-                    "jadwal" => array(
+                    "ibuhamil_tgl_lahir" => array(
                         'type' => 'date',
-                        'label' => 'Tanggal Lahir',
+                        'label' => 'Tgl Lahir',
+                    ),
+                    "ibuhamil_jk_id" => array(
+                        'type' => 'text',
+                        'label' => "Jenis Kelamin",
+                    ),
+                    "ibuhamil_alamat" => array(
+                        'type' => 'text',
+                        'label' => 'Alamat',
+                    ),
+                    "ibuhamil_no_hp" => array(
+                        'type' => 'text',
+                        'label' => 'No. HP',
+                    ),
+                    "darah" => array(
+                        'type' => 'text',
+                        'label' => 'Tekanan Darah',
+                    ),
+                    "bb" => array(
+                        'type' => 'text',
+                        'label' => 'BB',
+                    ),
+                    "jantung" => array(
+                        'type' => 'text',
+                        'label' => 'Detak Jantung Janin',
+                    ),
+                    "suhu" => array(
+                        'type' => 'text',
+                        'label' => 'Suhu Badan',
                     ),
                     "imunisasiibu_id" => array(
                         'type' => 'select',
-                        'label' => "Jenis Imunisasi",
-                        //options' => $select_imunisasiibu,
+                        'label' => 'Jenis Penyuluhan',
+                        'options' => $select_imunisasiibu,
                     ),
                     "penyuluhanibu_id" => array(
                         'type' => 'select',
                         'label' => 'Jenis Penyuluhan',
-                        //'option' => $select_penyuluhanibu,
+                        'options' => $select_penyuluhanibu,
                     ),
-                ),
-                "title" => "Group",
-            ),
-            array(
-                "name" => 'X',
-                "type" => "modal_delete",
-                "modal_id" => "delete_",
-                "url" => site_url($_page . "delete/"),
-                "button_color" => "danger",
-                "param" => "id",
-                "form_data" => array(
-                    "id" => array(
-                        'type' => 'hidden',
-                        'label' => "id",
-                    ),
-                ),
-                "title" => "Group",
-            ),
-        );
-        return $table;
-    }
-    public function get_table_group_config($_page, $start_number = 1)
-    {
-        $table["header"] = array(
-            'name' => 'Jenis Kegiatan',
-        );
-        $table["number"] = $start_number;
-        $table["action"] = array(
-            array(
-                "name" => 'Edit',
-                "type" => "modal_form",
-                "modal_id" => "edit_",
-                "url" => site_url($_page . "edit/"),
-                "button_color" => "primary",
-                "param" => "id",
-                "form_data" => array(
-                    "id" => array(
-                        'type' => 'hidden',
-                        'label' => "id",
-                    ),
-                    "name" => array(
-                        'type' => 'text',
-                        'label' => "Jenis Kegiatan",
-                    ),
+
+
                 ),
                 "title" => "Group",
             ),
@@ -130,7 +133,9 @@ class Pemeriksaanibu_services
             ),
         );
         return $table;
-
+    }
+    public function get_table_group_config($_page, $start_number = 1)
+    {
         $table["header"] = array(
             'name' => 'Jenis Imunisasi',
         );
@@ -231,13 +236,28 @@ class Pemeriksaanibu_services
     {
         $config = array(
             array(
-                'field' => 'jeniskegiatan_id',
-                'label' => 'Jenis Kegiatan',
+                'field' => 'ibuhamil_name',
+                'label' => 'Nama Ibu Hamil',
                 'rules' =>  'trim|required',
             ),
             array(
-                'field' => 'jadwal',
-                'label' => 'Jadwal Kegiatan',
+                'field' => 'ibuhamil_tgl_lahir',
+                'label' => 'Tgl Lahir',
+                'rules' => 'trim|required',
+            ),
+            array(
+                'field' => 'ibuhamil_jk_id',
+                'label' => 'Jenis Kelamin',
+                'rules' => 'trim|required',
+            ),
+            array(
+                'field' => 'ibuhamil_alamat',
+                'label' => 'Alamat',
+                'rules' => 'trim|required',
+            ),
+            array(
+                'field' => 'ibuhamil_no_hp',
+                'label' => 'No. HP',
                 'rules' => 'trim|required',
             ),
             array(
@@ -250,6 +270,26 @@ class Pemeriksaanibu_services
                 'label' => 'Jenis Penyuluhan',
                 'rules' => 'trim|required',
             ),
+            array(
+                'field' => 'darah',
+                'label' => 'Tekanan darah',
+                'rules' => 'trim|required',
+            ),
+            array(
+                'field' => 'bb',
+                'label' => 'BB',
+                'rules' => 'trim|required',
+            ),
+            array(
+                'field' => 'jantung',
+                'label' => 'Detak jantung janin',
+                'rules' => 'trim|required',
+            ),
+            array(
+                'field' => 'suhu',
+                'label' => 'Suhu badan',
+                'rules' => 'trim|required',
+            ),
 
         );
 
@@ -257,33 +297,59 @@ class Pemeriksaanibu_services
     }
     public function get_form_data($page)
     {
-        $select_jeniskegiatan = $this->select_jeniskegiatan();
-        // $select_imunisasiibu = $this->select_imunisasiibu();
-        //$select_penyuluhanibu = $this->select_penyuluhanibu();
+        $select_imunisasiibu = $this->select_imunisasiibu();
+        $select_penyuluhanibu = $this->select_penyuluhanibu();
         $form_data = array(
-            "name" => "Tambah Kegiatan",
+            "name" => "Tambah Pemeriksaan",
             "modal_id" => "add_group_",
             "button_color" => "primary",
             "url" => site_url($page . "add/"),
             "form_data" => array(
-                "jeniskegiatan_id" => array(
-                    'type' => 'select',
-                    'label' => "Jenis Kegiatan",
-                    'option' => $select_jeniskegiatan,
+                "ibuhamil_name" => array(
+                    'type' => 'text',
+                    'label' => "Nama Ibu Hamil",
                 ),
-                "jadwal" => array(
+                "ibuhamil_tgl_lahir" => array(
                     'type' => 'date',
-                    'label' => 'Tanggal Lahir',
+                    'label' => 'Tgl Lahir',
                 ),
-                "imunisasiibu_id" => array(
-                    'type' => 'select',
-                    'label' => "Jenis Imunisasi",
-                    //          'options' => $select_imunisasiibu,
+                "ibuhamil_jk_id" => array(
+                    'type' => 'text',
+                    'label' => "Jenis Kelamin",
+                ),
+                "ibuhamil_alamat" => array(
+                    'type' => 'text',
+                    'label' => 'Alamat',
+                ),
+                "ibuhamil_no_hp" => array(
+                    'type' => 'text',
+                    'label' => 'No. HP',
                 ),
                 "penyuluhanibu_id" => array(
                     'type' => 'select',
                     'label' => 'Jenis Penyuluhan',
-                    //        'option' => $select_penyuluhanibu,
+                    'options' => $select_penyuluhanibu,
+                ),
+                "imunisasiibu_id" => array(
+                    'type' => 'select',
+                    'label' => 'Jenis Penyuluhan',
+                    'options' => $select_imunisasiibu,
+                ),
+                "darah" => array(
+                    'type' => 'text',
+                    'label' => 'Tekanan Darah',
+                ),
+                "bb" => array(
+                    'type' => 'text',
+                    'label' => 'BB',
+                ),
+                "jantung" => array(
+                    'type' => 'text',
+                    'label' => 'Detak Jantung Janin',
+                ),
+                "suhu" => array(
+                    'type' => 'text',
+                    'label' => 'Suhu Badan',
                 ),
             ),
             'data' => NULL

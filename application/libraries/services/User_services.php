@@ -47,7 +47,7 @@ class User_services
   {
 	// sesuaikan nama tabel header yang akan d tampilkan dengan nama atribut dari tabel yang ada dalam database
     $table["header"] = array(
-			'username' => 'username',
+			'username' => 'Username',
 			'group_name' => 'Group',
 			'user_fullname' => 'Nama Lengkap',
 			'phone' => 'No Telepon',
@@ -71,7 +71,7 @@ class User_services
 			  "param" => "id",
 			),
 			array(
-			  "name" => 'X',
+			  "name" => 'Hapus',
 			  "type" => "modal_delete",
 			  "modal_id" => "delete_category_",
 			  "url" => site_url( $_page."delete/"),
@@ -164,4 +164,3 @@ class User_services
 		return $_data;
 	}
 }
-?>

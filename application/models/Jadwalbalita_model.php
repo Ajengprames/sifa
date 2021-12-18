@@ -126,7 +126,7 @@ class Jadwalbalita_model extends MY_Model
         $this->select($this->table . '.*');
         $this->select('jeniskegiatan.name AS jeniskegiatan_name');
         $this->select('imunisasibalita.name AS imunisasibalita_name');
-        $this->select('penyuluhanbalita.name AS penyluhanbalita_name');
+        $this->select('penyuluhanbalita.name AS penyuluhanbalita_name');
         $this->join(
             'jeniskegiatan',
             'jeniskegiatan.id = jadwalbalita.jeniskegiatan_id',
